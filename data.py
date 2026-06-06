@@ -16,7 +16,7 @@ stock_list = pd.read_parquet(stk_path)
 stock_list = stock_list['股票代码'].tolist()
 stock_list = [('sh.' if stk.startswith('6') else 'sz.') + stk for stk in stock_list]
 
-start_date = '2026-01-01'
+start_date = '2026-06-02'
 end_date = '2026-06-06'
 
 bs.login()
@@ -48,4 +48,5 @@ if result:
         new_hfq = pd.concat([old_hfq,df],ignore_index=False)
     else:
         new_hfq = df
+    new_hfq = new_hfq.sort_values(['股票代码','除权除息日'])
     new_hfq.to_parquet("./data/hfq_factor.parquet",engine='pyarrow',index=False)
