@@ -15,7 +15,7 @@ stock_list = pd.read_parquet(stk_path)
 stock_list = stock_list['股票代码'].tolist()
 stock_list = [('sh.' if stk.startswith('6') else 'sz.') + stk for stk in stock_list]
 
-start_date = '2026-06-01'
+start_date = '2026-01-01'
 end_date = '2026-06-06'
 
 bs.login()
