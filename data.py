@@ -10,7 +10,7 @@ import random
 tz = pytz.timezone('Asia/Shanghai')
 today = datetime.now(tz).strftime('%Y-%m-%d')
 
-stk_path = './data/stk.parquet'
+stk_path = './stk.parquet'
 stock_list = pd.read_parquet(stk_path)
 stock_list = stock_list['股票代码'].tolist()
 stock_list = [('sh.' if stk.startswith('6') else 'sz.') + stk for stk in stock_list]
