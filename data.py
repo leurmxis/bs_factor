@@ -6,6 +6,7 @@ import pytz
 import pyarrow
 import time
 import random
+import os
 
 tz = pytz.timezone('Asia/Shanghai')
 today = datetime.now(tz).strftime('%Y-%m-%d')
