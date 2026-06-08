@@ -1,7 +1,7 @@
 import baostock as bs
 import pandas as pd
 import numpy as np
-from datetime import datetime
+from datetime import datetime, timedelta
 import pytz
 import pyarrow
 import time
@@ -17,7 +17,7 @@ stock_list = stock_list['股票代码'].tolist()
 stock_list = [('sh.' if stk.startswith('6') else 'sz.') + stk for stk in stock_list]
 
 start_date = today
-end_date = today
+end_date = today - timedelta(days=1)
 
 bs.login()
 result = []
@@ -38,6 +38,7 @@ if result:
         new_raw = pd.concat([old_raw,df],ignore_index=False)
     else:
         new_raw = df
+    new_raw = new_raw.drop_duplicates()
     new_raw.to_parquet('./data/raw_factor.parquet',engine='pyarrow',index=False)
     df['股票代码'] = df['code'].str[-6]
     df['除权除息日'] = pd.to_datetime(df['dividOperateDate'])
@@ -48,5 +49,6 @@ if result:
         new_hfq = pd.concat([old_hfq,df],ignore_index=False)
     else:
         new_hfq = df
+    new_hfq = new_hfq.drop_duplicates()
     new_hfq = new_hfq.sort_values(['股票代码','除权除息日'])
     new_hfq.to_parquet("./data/hfq_factor.parquet",engine='pyarrow',index=False)
