@@ -17,7 +17,7 @@ stock_list = stock_list['股票代码'].tolist()
 stock_list = [('sh.' if stk.startswith('6') else 'sz.') + stk for stk in stock_list]
 
 start_date = today
-end_date = today - timedelta(days=1)
+end_date = (datetime.now(tz) - timedelta(days=1)).strftime('%Y-%m-%d')
 
 bs.login()
 result = []
